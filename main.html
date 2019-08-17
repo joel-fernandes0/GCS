@@ -20,22 +20,8 @@ app.on('ready', function(){
             }
         }
     );
-    //Load html into window
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'mainWindow.html'),
-        protocol: 'file:',
-        slashes: true
-    }));  
 
-    //Quit all windows when app is closed
-    mainWindow.on('closed', function(){
-        app.quit();
-    })
-    
-    //Build Menu from template
-    const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
-    //Insert Menu
-    Menu.setApplicationMenu(mainMenu);
+
 });
 
 //Create new internal window
@@ -102,24 +88,6 @@ if(process.platform == 'darwin'){
     mainMenuTemplate.unshift({});
 }
 
-//Add Developer tools if not in production mode
-if(process.env.NODE_ENV !== 'production'){
-    mainMenuTemplate.push({
-        label: 'Developer Tools',
-        submenu: [
-            {
-                label: 'Toggle Dev Tools',
-                accelerator: process.platform == 'darwin' ? 'Command + I' : 'Ctrl + I',
-                click(_item, focusedWindow){
-                    focusedWindow.toggleDevTools();
-                }
-            },
-            {
-                role: 'reload'
-            }
-        ]
-    })
-}
-
+//Its of no use.
 
         

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Shopping List</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="edit.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+    <nav>
+        <div class = 'nav-wrapper'>
+            <a class = 'brand-logo center'>List</a>
+    </nav>
+    </div>
+        <ul>
+            <button>Add item</button>
+        </ul>
+    <div id = 'Note'>Double Click to remove Item</div>
+
+    <script>
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+        const ul = document.querySelector('ul');
+        
+        
+        //Catch add:item from addWindow
+        ipcRenderer.on('item:add',function(e, item){
+            ul.className = 'collection';
+            const li = document.createElement('li');
+            li.className = 'collection-item';
+            const itemText = document.createTextNode(item);
+            li.appendChild(itemText);
+            ul.appendChild(li);    
+        });
+
+        //Clear items in list
+        ipcRenderer.on('item:clear',function(){
+            ul.innerHTML = '';
+            ul.className = '';
+        });
+
+        //Remove item
+        ul.addEventListener('dblclick',removeItem);
+
+        function removeItem(e){
+            e.target.remove();
+            if(ul.children.length == 0){
+                ul.className = '';
+            }
+        }
+    </script>
+</body>
+</html>
